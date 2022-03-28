@@ -1,0 +1,53 @@
+{
+  "Name": "Example beamline apertures",
+  "units": "m",
+  "Apertures": {
+    "DU50": {
+      "type": "elliptical",
+      "s":    [0.0,   1.5],
+      "Xmax": [0.025, 0.025],
+      "Ymax": [0.025, 0.025]
+    },
+    "kicker": {
+      "type": "rectangular",
+      "visible": false,
+      "s":    [-0.4,  -0.35,  0.35,  0.4],
+      "Xmax": [ 0.022, 0.018, 0.018, 0.022]
+    },
+    "kicker 1": {
+      "definition": "kicker",
+      "s_shift": 1.0
+    },
+    "kicker 2": {
+      "definition": "kicker",
+      "s_shift": 6.0
+    },
+    "septum": {
+      "type": "rectangular",
+      "visible": false,
+      "s":    [ -0.4,  0.4],
+      "Xmin": [-0.020,-0.020],
+      "Xmax": [ 0.012, 0.012],
+      "Ymax": [ 0.010, 0.010]
+    },
+    "Septum 1": {
+      "definition": "septum",
+      "s_shift": 2.0
+    },
+    "bend": {
+      "type": "elliptical",
+      "visible": false,
+      "s":    [-0.5,   0.5],
+      "Xmax": [0.030, 0.030],
+      "Ymax": [0.015, 0.015]
+    },
+    "B10": {
+      "definition": "bend",
+      "s_shift": 3.0
+    },
+    "B20": {
+      "definition": "bend",
+      "s_shift": 5.0
+    }
+  }
+}
