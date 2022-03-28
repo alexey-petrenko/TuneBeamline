@@ -66,28 +66,9 @@ def on_scroll(event):
     global x_orbit_values, y_orbit_values, y_orbit_values
     global x_cor_values, y_cor_values
     
-    mouse_x = event.xdata
-    
-    if not mouse_x or not event.inaxes: return
-    
-    if event.inaxes is axcx:
-        line = cx_dots
-        names_data = x_correctors
-        cor_values = x_cor_values
-    if event.inaxes is axcy:
-        line = cy_dots
-        names_data = y_correctors
-        cor_values = y_cor_values
-    if event.inaxes is axx:
-        line = x_line
-        names_data = x_BPMs
-    if event.inaxes is axy:
-        line = y_line
-        names_data = y_BPMs
-    
-    s_data, value_data = line.get_data()
-
-    i = np.argmin(np.abs(s_data-mouse_x))
+    res = line_and_element_from_mouse_event(event)
+    if not res: return
+    line, i, element_name = res
 
     #print('you pressed', event.button, event.xdata, event.ydata)
     direction = -1.0
@@ -96,7 +77,6 @@ def on_scroll(event):
     v_min, v_max =event.inaxes.get_ylim()
     step = direction*(v_max-v_min)/30.0
     
-    element_name = names_data[i]
     element = beamline_cfg["Beamline elements"][element_name]
     if element["type"] == "corrector":
         #print(f"Apply correction: '{element_name}' change = {step:+.3f}")
@@ -106,15 +86,83 @@ def on_scroll(event):
         x_orbit_values = x_orbit_values + x_resp*step
         y_orbit_values = y_orbit_values + y_resp*step
 
-        cor_values[i]+= step
-        #value_data[i]+=step
-        #line.set_data(s_data, value_data)
+        if "plane" in element:
+            if element["plane"] == "X":
+                x_cor_values[i]+= step
+            else:
+                y_cor_values[i]+= step
     
         update_plot()
 
     #fig.canvas.draw()
     #event.canvas.draw()
+
+def line_and_element_from_mouse_event(event):
+    x = event.xdata
+    if not x: return
     
+    mouse_x = event.xdata
+    if not mouse_x or not event.inaxes: return
+    
+    if event.inaxes is axcx:
+        line = cx_dots
+        names = x_correctors
+    if event.inaxes is axcy:
+        line = cy_dots
+        names = y_correctors
+    if event.inaxes is axx:
+        line = x_line
+        names = x_BPMs
+    if event.inaxes is axy:
+        line = y_line
+        names = y_BPMs
+    
+    s_data, value_data = line.get_data()
+
+    i = np.argmin(np.abs(s_data-mouse_x)) # nearest element index
+    element_name = names[i]
+    
+    return line, i, element_name
+
+def onmove(event):
+    res = line_and_element_from_mouse_event(event)
+    if not res: return
+    line, i, element_name = res
+    
+    #v_min, v_max =event.inaxes.get_ylim()
+    #step = direction*(v_max-v_min)/30.0
+    
+    select_element(element_name, event.inaxes)
+
+selected_element_name = ""
+selected_element_txt = None
+def select_element(name, ax):
+    global selected_element_name, selected_element_txt
+    if name == selected_element_name : return
+    selected_element_name = name
+    
+    if selected_element_txt:
+        selected_element_txt.set_text("")
+
+    element = beamline_cfg["Beamline elements"][name]
+    s = 0
+    if "s" in element: s = element["s"]
+    
+    if ax is axcx:
+        txt = txt_cx
+    if ax is axcy:
+        txt = txt_cy
+    if ax is axx:
+        txt = txt_x
+    if ax is axy:
+        txt = txt_y
+    
+    txt.set_text(name)
+    txt.set_x(s)
+    selected_element_txt = txt
+    
+    ax.figure.canvas.draw()
+
 def update_plot():
 
     for line, values in zip([x_line, y_line, cx_dots, cy_dots],
@@ -178,9 +226,20 @@ if __name__ == '__main__':
 
     x_line, x_BPMs = plot_orbit(beamline_cfg, axx, plane='X')
     y_line, y_BPMs = plot_orbit(beamline_cfg, axy, plane='Y')
-    
-    #print(x_BPMs,y_BPMs)
-    
+
+    txt_x = axx.text(0, 0, "", verticalalignment='center',
+                     horizontalalignment='right', color='black',
+                     fontsize=9, rotation='vertical', alpha=0.7)
+    txt_y = axy.text(0, 0, "", verticalalignment='center',
+                     horizontalalignment='right', color='black',
+                     fontsize=9, rotation='vertical', alpha=0.7)
+    txt_cx = axcx.text(0, 0, "", verticalalignment='center',
+                     horizontalalignment='right', color='black',
+                     fontsize=9, rotation='vertical', alpha=0.7)
+    txt_cy = axcy.text(0, 0, "", verticalalignment='center',
+                     horizontalalignment='right', color='black',
+                     fontsize=9, rotation='vertical', alpha=0.7)
+        
     x_orbit_values = x_line.get_data()[1] # mm
     y_orbit_values = y_line.get_data()[1] # mm
 
@@ -202,7 +261,6 @@ if __name__ == '__main__':
 
     fig.subplots_adjust(left=0.06, bottom=0.08, right=0.99, top=0.96, hspace=0)
     #cid = fig.canvas.mpl_connect('scroll_event', on_scroll)
-    cid = axcx.figure.canvas.mpl_connect('scroll_event', on_scroll)
-
+    cid = fig.canvas.mpl_connect('scroll_event', on_scroll)
+    cid = fig.canvas.mpl_connect('motion_notify_event', onmove)
     plt.show()
-
