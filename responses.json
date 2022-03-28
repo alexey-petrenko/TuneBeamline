@@ -43,6 +43,36 @@
       "slope": -1.0e-1,
       "slope error": 0.03
     },
+    "BPM20H / Cor20H": {
+      "units": "mm/mrad",
+      "slope": -1.5,
+      "slope error": 0.06
+    },
+    "X-BPM after B10 / Cor20H": {
+      "units": "mm/mrad",
+      "slope": 0.8,
+      "slope error": 0.03
+    },
+    "X-BPM after B10 / X-Corr after B10": {
+      "units": "mm/mrad",
+      "slope": -0.3,
+      "slope error": 0.01
+    },
+    "Y-BPM after B10 / Y-Corr after B10": {
+      "units": "mm/mrad",
+      "slope": 0.3,
+      "slope error": 0.01
+    },
+    "BPM20V / Cor20V": {
+      "units": "mm/mrad",
+      "slope": -1.2,
+      "slope error": 0.06
+    },
+    "Y-BPM after B10 / Cor20V": {
+      "units": "mm/mrad",
+      "slope": 0.8,
+      "slope error": 0.03
+    },
     "X-BPM after B10 / Cor10H": {
       "units": "mm/mrad",
       "slope": -1.5,

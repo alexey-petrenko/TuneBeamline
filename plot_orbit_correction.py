@@ -79,6 +79,20 @@ def on_scroll(event):
     
     element = beamline_cfg["Beamline elements"][element_name]
     if element["type"] == "corrector":
+        if element["plane"] == "X":
+            kick_values = x_cor_values
+        else:
+            kick_values = y_cor_values
+        
+        kick = kick_values[i]
+
+        if "max_kick" in element:
+            if kick + step > element["max_kick"]:
+                step = element["max_kick"] - kick
+        if "min_kick" in element:
+            if kick + step < element["min_kick"]:
+                step = element["min_kick"] - kick
+        
         #print(f"Apply correction: '{element_name}' change = {step:+.3f}")
         x_resp = responses_to_corrector(x_BPMs, element_name, responses_cfg)
         y_resp = responses_to_corrector(y_BPMs, element_name, responses_cfg)
@@ -86,16 +100,47 @@ def on_scroll(event):
         x_orbit_values = x_orbit_values + x_resp*step
         y_orbit_values = y_orbit_values + y_resp*step
 
-        if "plane" in element:
-            if element["plane"] == "X":
-                x_cor_values[i]+= step
-            else:
-                y_cor_values[i]+= step
-    
-        update_plot()
+        kick_values[i]+= step
+        
+    elif element["type"] == "BPM":
+        dX = x_orbit_values*0.0
+        dY = y_orbit_values*0.0
+        if element["plane"] == "X":
+            dX[i] = step
+        else:
+            dY[i] = step
+        
+        dV_wish = np.concatenate( (dX,dY) )
+                
+        dkicks = ORM_inv*np.transpose(np.matrix(dV_wish))
+        
+        dV = ORM*dkicks
+        dV = dV.A1
+        
+        x_orbit_values = x_orbit_values + dV[:len(x_orbit_values)]
+        y_orbit_values = y_orbit_values + dV[len(x_orbit_values):]
 
-    #fig.canvas.draw()
-    #event.canvas.draw()
+        dkicks = dkicks.A1
+        #print(dkicks)
+        
+        x_cor_values = x_cor_values + dkicks[:len(x_cor_values)]
+        y_cor_values = y_cor_values + dkicks[len(x_cor_values):]
+
+    update_plot()
+
+def get_ORM(BPMs, correctors):
+    M = []
+    for BPM in BPMs:
+        line = []    
+        for cor in correctors:
+            key = f"{BPM} / {cor}"
+            if key in responses_cfg["response data"]:
+                line.append(responses_cfg["response data"][key]["slope"])
+            else:
+                line.append(0.0)
+        M.append(line)
+    
+    return np.matrix(M)
 
 def line_and_element_from_mouse_event(event):
     x = event.xdata
@@ -162,16 +207,21 @@ def select_element(name, ax):
     selected_element_txt = txt
     
     ax.figure.canvas.draw()
+    
+
 
 def update_plot():
 
     for line, values in zip([x_line, y_line, cx_dots, cy_dots],
-                            [x_orbit_values, y_orbit_values, x_cor_values, y_cor_values]):
+                            [x_orbit_values, y_orbit_values,
+                             x_cor_values, y_cor_values]):
         
         s_data, _ = line.get_data()
         line.set_data(s_data, values)
 
     fig.canvas.draw()
+
+
 
 if __name__ == '__main__':
 
@@ -263,4 +313,33 @@ if __name__ == '__main__':
     #cid = fig.canvas.mpl_connect('scroll_event', on_scroll)
     cid = fig.canvas.mpl_connect('scroll_event', on_scroll)
     cid = fig.canvas.mpl_connect('motion_notify_event', onmove)
+    
+
+    # ORM/SVD calculations:
+    
+    ORM_BPMs = np.concatenate( (x_BPMs,y_BPMs) ) # all BPMs
+    ORM_cors = np.concatenate( (x_correctors,y_correctors) ) # all correctors
+    ORM = get_ORM(ORM_BPMs,ORM_cors) # ORM matrix
+    
+    print("ORM:")
+    print(np.round(ORM))
+    
+    U, s, Vh = np.linalg.svd(ORM, full_matrices=False)
+    print("singular values:")
+    print(s)
+   
+    N_singular_values_to_keep = 4
+    print(f"N_singular_values_to_keep = {N_singular_values_to_keep}")
+    s1 = s.copy()
+    s1 = s1**-1
+    s1[N_singular_values_to_keep:] = 0
+    ORM_reduced = np.matrix(U)*np.matrix(np.diag(s1))*np.matrix(Vh)  
+    print("ORM_reduced:")
+    print(np.round(ORM_reduced))
+
+    ORM_inv=Vh.transpose()*np.diag(s1)*U.transpose()
+    
+    print("Inverted ORM:")
+    print(ORM_inv)
+
     plt.show()
