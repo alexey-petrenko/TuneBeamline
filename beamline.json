@@ -154,9 +154,9 @@
       "type": "corrector",
       "plane": "X",
       "s": 5.6,
-      "kick": 2.0,
-      "min_kick": -12,
-      "max_kick":  12,
+      "kick": 1.0,
+      "min_kick": -3,
+      "max_kick":  3,
       "kick_units": "mrad"
     }
   }

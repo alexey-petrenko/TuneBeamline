@@ -3,7 +3,6 @@
 import json, os, sys
 import numpy as np
 import matplotlib.pyplot as plt
-
 from plot_beamline import plot_beamline
 from plot_aperture import plot_aperture
 
@@ -33,6 +32,8 @@ def plot_correctors(beamline_cfg, ax, plane='X'):
     s_values=[]
     kick_values=[]
     corrector_names = []
+    min_kicks = []
+    max_kicks = []
 
     for name, itm in beamline_cfg["Beamline elements"].items():
         if "type" in itm and itm["type"] == "corrector":
@@ -42,15 +43,24 @@ def plot_correctors(beamline_cfg, ax, plane='X'):
                     s = itm["s"]
                     s_values.append(s)
                     kick_values.append(itm["kick"])
-                    if "max_kick" in itm:
-                        ax.plot([s,s], [0,itm["max_kick"]], color="blue", alpha=0.4, lw=3)
+
                     if "min_kick" in itm:
-                        ax.plot([s,s], [0,itm["min_kick"]], color="blue", alpha=0.4, lw=3)
+                        min_kick = itm["min_kick"]
+                        ax.plot([s,s], [0,min_kick], color="blue", alpha=0.4, lw=3)
+                    else: min_kick = -1e10
+
+                    if "max_kick" in itm:
+                        max_kick = itm["max_kick"]
+                        ax.plot([s,s], [0,max_kick], color="blue", alpha=0.4, lw=3)
+                    else: max_kick = 1e10
+
+                    max_kicks.append(max_kick)
+                    min_kicks.append(min_kick)
 
     line, = ax.plot(s_values, kick_values, " ", marker="o",
                     markersize=8, markeredgewidth=1, markeredgecolor="black",
                     color="white", alpha=0.5)
-    return line, corrector_names
+    return line, corrector_names, min_kicks, max_kicks
 
 def responses_to_corrector(element_names, corrector_name, responses_cfg):
     slopes = []
@@ -112,7 +122,20 @@ def on_scroll(event):
         
         dV_wish = np.concatenate( (dX,dY) )
                 
-        dkicks = ORM_inv*np.transpose(np.matrix(dV_wish))
+        dkicks = ORM_inv*np.matrix(dV_wish).T
+        
+        kicks = np.concatenate((x_cor_values,y_cor_values))
+        
+        min_kicks = np.concatenate((x_min_kicks,y_min_kicks))
+        max_kicks = np.concatenate((x_max_kicks,y_max_kicks))
+        
+        new_kicks = kicks + dkicks.A1
+        
+        new_kicks = [min((kick, max_kick)) for kick, max_kick in zip(new_kicks, max_kicks)]
+        new_kicks = [max((kick, min_kick)) for kick, min_kick in zip(new_kicks, min_kicks)]
+        new_kicks = np.array(new_kicks)
+
+        dkicks = np.matrix(new_kicks-kicks).T
         
         dV = ORM*dkicks
         dV = dV.A1
@@ -121,7 +144,6 @@ def on_scroll(event):
         y_orbit_values = y_orbit_values + dV[len(x_orbit_values):]
 
         dkicks = dkicks.A1
-        #print(dkicks)
         
         x_cor_values = x_cor_values + dkicks[:len(x_cor_values)]
         y_cor_values = y_cor_values + dkicks[len(x_cor_values):]
@@ -289,12 +311,14 @@ if __name__ == '__main__':
     txt_cy = axcy.text(0, 0, "", verticalalignment='center',
                      horizontalalignment='right', color='black',
                      fontsize=9, rotation='vertical', alpha=0.7)
-        
+
     x_orbit_values = x_line.get_data()[1] # mm
     y_orbit_values = y_line.get_data()[1] # mm
 
-    cx_dots, x_correctors = plot_correctors(beamline_cfg, axcx, plane='X')
-    cy_dots, y_correctors = plot_correctors(beamline_cfg, axcy, plane='Y')
+    cx_dots, x_correctors, x_min_kicks, x_max_kicks = \
+        plot_correctors(beamline_cfg, axcx, plane='X')
+    cy_dots, y_correctors, y_min_kicks, y_max_kicks = \
+        plot_correctors(beamline_cfg, axcy, plane='Y')
     
     x_cor_values = cx_dots.get_data()[1] # mrad
     y_cor_values = cy_dots.get_data()[1] # mrad
@@ -313,7 +337,6 @@ if __name__ == '__main__':
     #cid = fig.canvas.mpl_connect('scroll_event', on_scroll)
     cid = fig.canvas.mpl_connect('scroll_event', on_scroll)
     cid = fig.canvas.mpl_connect('motion_notify_event', onmove)
-    
 
     # ORM/SVD calculations:
     
@@ -334,12 +357,12 @@ if __name__ == '__main__':
     s1 = s1**-1
     s1[N_singular_values_to_keep:] = 0
     ORM_reduced = np.matrix(U)*np.matrix(np.diag(s1))*np.matrix(Vh)  
-    print("ORM_reduced:")
-    print(np.round(ORM_reduced))
+    #print("ORM_reduced:")
+    #print(np.round(ORM_reduced))
 
-    ORM_inv=Vh.transpose()*np.diag(s1)*U.transpose()
+    ORM_inv=Vh.T*np.diag(s1)*U.T
     
     print("Inverted ORM:")
-    print(ORM_inv)
+    print(np.round(ORM_inv))
 
     plt.show()
