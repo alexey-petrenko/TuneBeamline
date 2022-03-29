@@ -325,12 +325,18 @@ if __name__ == '__main__':
     
     #print(x_line.get_data())
 
+    if len(x_correctors) > 0:
+        cor = x_correctors[0]
+    elif len(y_correctors) > 0:
+        cor = y_correctors[0]
+    kick_units = beamline_cfg["Beamline elements"][cor]["kick_units"]
+
     axx.set_ylabel("$x$ (mm)")
 
     axy.set_ylabel("$y$ (mm)")
 
-    axcx.set_ylabel("x-corr. (mrad)")
-    axcy.set_ylabel("y-corr. (mrad)")
+    axcx.set_ylabel(f"x-corr. ({kick_units})")
+    axcy.set_ylabel(f"y-corr. ({kick_units})")
     axcy.set_xlabel("$s$ (m)")
 
     fig.subplots_adjust(left=0.06, bottom=0.08, right=0.99, top=0.96, hspace=0)
@@ -351,7 +357,7 @@ if __name__ == '__main__':
     print("singular values:")
     print(s)
    
-    N_singular_values_to_keep = 4
+    N_singular_values_to_keep = 5
     print(f"N_singular_values_to_keep = {N_singular_values_to_keep}")
     s1 = s.copy()
     s1 = s1**-1
