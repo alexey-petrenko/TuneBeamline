@@ -1,163 +1,879 @@
 {
-  "Name": "Example Beamline",
-  "Beamline elements": {
-    "Beam Energy": {
-      "value": 100.0,
-      "value_units": "MeV"
-    },
-    "BPM10H": {
-      "type": "BPM",
-      "plane": "X",
-      "s": 0.2,
-      "value": 5.0,
-      "value_units": "mm"
-    },
-    "BPM10V": {
-      "type": "BPM",
-      "plane": "Y",
-      "s": 0.2,
-      "value": 3.0,
-      "value_units": "mm"
-    },
-    "Q10": {
-      "type": "quad",
-      "s": 0.5,
-      "L": 0.2
-    },
-    "Screen 20": {
-      "type": "screen",
-      "s": 6.5
-    },
-    "S20H": {
-      "type": "BPM",
-      "plane": "X",
-      "s": 6.5,
-      "value": 20.0,
-      "value_units": "mm"
-    },
-    "S20V": {
-      "type": "BPM",
-      "plane": "Y",
-      "s": 6.5,
-      "value": -12.0,
-      "value_units": "mm"
-    },
-    "Cor10H": {
-      "type": "corrector",
-      "plane": "X",
-      "s": 0.5,
-      "kick": 5.0,
-      "min_kick": -10,
-      "max_kick":  10,
-      "kick_units": "mrad"
-    },
-    "Cor10V": {
-      "type": "corrector",
-      "plane": "Y",
-      "s": 0.5,
-      "kick": -2.0,
-      "min_kick": -10,
-      "max_kick":  10,
-      "kick_units": "mrad"
-    },
-    "Q20": {
-      "type": "quad",
-      "s": 1.5,
-      "L": 0.2
-    },
-    "Cor20H": {
-      "type": "corrector",
-      "plane": "X",
-      "s": 1.2,
-      "kick": 5.0,
-      "min_kick": -10,
-      "max_kick":  10,
-      "kick_units": "mrad"
-    },
-    "Cor20V": {
-      "type": "corrector",
-      "plane": "Y",
-      "s": 1.2,
-      "kick": 2.0,
-      "min_kick": -10,
-      "max_kick":  10,
-      "kick_units": "mrad"
-    },
-    "BPM20H": {
-      "type": "BPM",
-      "plane": "X",
-      "s": 1.8,
-      "value": -8.0,
-      "value_units": "mm"
-    },
-    "BPM20V": {
-      "type": "BPM",
-      "plane": "Y",
-      "s": 1.8,
-      "value": -5.0,
-      "value_units": "mm"
-    },
-    "B10": {
-      "type": "bend",
-      "s": 3.0,
-      "L": 1.0,
-      "Angle": 45
-    },
-    "B20": {
-      "type": "bend",
-      "s": 5.0,
-      "L": 1.0,
-      "Angle": 45
-    },
-    "Screen 10": {
-      "type": "screen",
-      "s": 3.8
-    },
-    "X-Corr after B10": {
-      "type": "corrector",
-      "plane": "X",
-      "s": 3.6,
-      "kick": 2.0,
-      "min_kick": -5,
-      "max_kick":  5,
-      "kick_units": "mrad"
-    },
-    "Y-Corr after B10": {
-      "type": "corrector",
-      "plane": "Y",
-      "s": 3.6,
-      "kick": -4.0,
-      "min_kick": -5,
-      "max_kick":  5,
-      "kick_units": "mrad"
-    },
-    "X-BPM after B10": {
-      "type": "BPM",
-      "plane": "X",
-      "s": 3.7,
-      "value": -1.0,
-      "value_units": "mm"
-    },
-    "Y-BPM after B10": {
-      "type": "BPM",
-      "plane": "Y",
-      "s": 3.7,
-      "value": 2.5,
-      "value_units": "mm"
-    },
-    "Q30": {
-      "type": "quad",
-      "s": 4.0,
-      "L": 0.2
-    },
-    "X-Corr after B20": {
-      "type": "corrector",
-      "plane": "X",
-      "s": 5.6,
-      "kick": 1.0,
-      "min_kick": -3,
-      "max_kick":  3,
-      "kick_units": "mrad"
-    }
+ "Name": "NICA Booster Beamline",
+ "Beamline elements": {
+  "ip1BPM1V": {
+   "type": "BPM",
+   "plane": "Y",
+   "s": 0.6025,
+   "L": 0.1,
+   "value": 0.0,
+   "value_units": "mm"
+  },
+  "ip1BPM1H": {
+   "type": "BPM",
+   "plane": "X",
+   "s": 1.1875,
+   "L": 0.1,
+   "value": 0.0,
+   "value_units": "mm"
+  },
+  "ip1BPM2V": {
+   "type": "BPM",
+   "plane": "Y",
+   "s": 9.3925,
+   "L": 0.1,
+   "value": 0.0,
+   "value_units": "mm"
+  },
+  "ip1BPM2H": {
+   "type": "BPM",
+   "plane": "X",
+   "s": 9.9775,
+   "L": 0.1,
+   "value": 0.0,
+   "value_units": "mm"
+  },
+  "ip1BPM3V": {
+   "type": "BPM",
+   "plane": "Y",
+   "s": 18.1825,
+   "L": 0.1,
+   "value": 0.0,
+   "value_units": "mm"
+  },
+  "ip1BPM3H": {
+   "type": "BPM",
+   "plane": "X",
+   "s": 18.7675,
+   "L": 0.1,
+   "value": 0.0,
+   "value_units": "mm"
+  },
+  "ip1BPM4V": {
+   "type": "BPM",
+   "plane": "Y",
+   "s": 26.9725,
+   "L": 0.1,
+   "value": 0.0,
+   "value_units": "mm"
+  },
+  "ip1BPM4H": {
+   "type": "BPM",
+   "plane": "X",
+   "s": 27.5575,
+   "L": 0.1,
+   "value": 0.0,
+   "value_units": "mm"
+  },
+  "ip1BPM5V": {
+   "type": "BPM",
+   "plane": "Y",
+   "s": 35.7625,
+   "L": 0.1,
+   "value": 0.0,
+   "value_units": "mm"
+  },
+  "ip1BPM5H": {
+   "type": "BPM",
+   "plane": "X",
+   "s": 36.3475,
+   "L": 0.1,
+   "value": 0.0,
+   "value_units": "mm"
+  },
+  "ip1BPM6V": {
+   "type": "BPM",
+   "plane": "Y",
+   "s": 44.5525,
+   "L": 0.1,
+   "value": 0.0,
+   "value_units": "mm"
+  },
+  "ip1BPM6H": {
+   "type": "BPM",
+   "plane": "X",
+   "s": 45.1375,
+   "L": 0.1,
+   "value": 0.0,
+   "value_units": "mm"
+  },
+  "ip2BPM1V": {
+   "type": "BPM",
+   "plane": "Y",
+   "s": 53.3425,
+   "L": 0.1,
+   "value": 0.0,
+   "value_units": "mm"
+  },
+  "ip2BPM1H": {
+   "type": "BPM",
+   "plane": "X",
+   "s": 53.9275,
+   "L": 0.1,
+   "value": 0.0,
+   "value_units": "mm"
+  },
+  "ip2BPM2V": {
+   "type": "BPM",
+   "plane": "Y",
+   "s": 62.1325,
+   "L": 0.1,
+   "value": 0.0,
+   "value_units": "mm"
+  },
+  "ip2BPM2H": {
+   "type": "BPM",
+   "plane": "X",
+   "s": 62.7175,
+   "L": 0.1,
+   "value": 0.0,
+   "value_units": "mm"
+  },
+  "ip2BPM3V": {
+   "type": "BPM",
+   "plane": "Y",
+   "s": 70.9225,
+   "L": 0.1,
+   "value": 0.0,
+   "value_units": "mm"
+  },
+  "ip2BPM3H": {
+   "type": "BPM",
+   "plane": "X",
+   "s": 71.5075,
+   "L": 0.1,
+   "value": 0.0,
+   "value_units": "mm"
+  },
+  "ip2BPM4V": {
+   "type": "BPM",
+   "plane": "Y",
+   "s": 79.7125,
+   "L": 0.1,
+   "value": 0.0,
+   "value_units": "mm"
+  },
+  "ip2BPM4H": {
+   "type": "BPM",
+   "plane": "X",
+   "s": 80.2975,
+   "L": 0.1,
+   "value": 0.0,
+   "value_units": "mm"
+  },
+  "ip2BPM5V": {
+   "type": "BPM",
+   "plane": "Y",
+   "s": 88.5025,
+   "L": 0.1,
+   "value": 0.0,
+   "value_units": "mm"
+  },
+  "ip2BPM5H": {
+   "type": "BPM",
+   "plane": "X",
+   "s": 89.0875,
+   "L": 0.1,
+   "value": 0.0,
+   "value_units": "mm"
+  },
+  "ip2BPM6V": {
+   "type": "BPM",
+   "plane": "Y",
+   "s": 97.2925,
+   "L": 0.1,
+   "value": 0.0,
+   "value_units": "mm"
+  },
+  "ip2BPM6H": {
+   "type": "BPM",
+   "plane": "X",
+   "s": 97.8775,
+   "L": 0.1,
+   "value": 0.0,
+   "value_units": "mm"
+  },
+  "ip3BPM1V": {
+   "type": "BPM",
+   "plane": "Y",
+   "s": 106.0825,
+   "L": 0.1,
+   "value": 0.0,
+   "value_units": "mm"
+  },
+  "ip3BPM1H": {
+   "type": "BPM",
+   "plane": "X",
+   "s": 106.6675,
+   "L": 0.1,
+   "value": 0.0,
+   "value_units": "mm"
+  },
+  "ip3BPM2V": {
+   "type": "BPM",
+   "plane": "Y",
+   "s": 114.8725,
+   "L": 0.1,
+   "value": 0.0,
+   "value_units": "mm"
+  },
+  "ip3BPM2H": {
+   "type": "BPM",
+   "plane": "X",
+   "s": 115.4575,
+   "L": 0.1,
+   "value": 0.0,
+   "value_units": "mm"
+  },
+  "ip3BPM3V": {
+   "type": "BPM",
+   "plane": "Y",
+   "s": 123.6625,
+   "L": 0.1,
+   "value": 0.0,
+   "value_units": "mm"
+  },
+  "ip3BPM3H": {
+   "type": "BPM",
+   "plane": "X",
+   "s": 124.2475,
+   "L": 0.1,
+   "value": 0.0,
+   "value_units": "mm"
+  },
+  "ip3BPM4V": {
+   "type": "BPM",
+   "plane": "Y",
+   "s": 132.4525,
+   "L": 0.1,
+   "value": 0.0,
+   "value_units": "mm"
+  },
+  "ip3BPM4H": {
+   "type": "BPM",
+   "plane": "X",
+   "s": 133.0375,
+   "L": 0.1,
+   "value": 0.0,
+   "value_units": "mm"
+  },
+  "ip3BPM5V": {
+   "type": "BPM",
+   "plane": "Y",
+   "s": 141.2425,
+   "L": 0.1,
+   "value": 0.0,
+   "value_units": "mm"
+  },
+  "ip3BPM5H": {
+   "type": "BPM",
+   "plane": "X",
+   "s": 141.8275,
+   "L": 0.1,
+   "value": 0.0,
+   "value_units": "mm"
+  },
+  "ip3BPM6V": {
+   "type": "BPM",
+   "plane": "Y",
+   "s": 150.0325,
+   "L": 0.1,
+   "value": 0.0,
+   "value_units": "mm"
+  },
+  "ip3BPM6H": {
+   "type": "BPM",
+   "plane": "X",
+   "s": 150.6175,
+   "L": 0.1,
+   "value": 0.0,
+   "value_units": "mm"
+  },
+  "ip4BPM1V": {
+   "type": "BPM",
+   "plane": "Y",
+   "s": 158.8225,
+   "L": 0.1,
+   "value": 0.0,
+   "value_units": "mm"
+  },
+  "ip4BPM1H": {
+   "type": "BPM",
+   "plane": "X",
+   "s": 159.4075,
+   "L": 0.1,
+   "value": 0.0,
+   "value_units": "mm"
+  },
+  "ip4BPM2V": {
+   "type": "BPM",
+   "plane": "Y",
+   "s": 167.6125,
+   "L": 0.1,
+   "value": 0.0,
+   "value_units": "mm"
+  },
+  "ip4BPM2H": {
+   "type": "BPM",
+   "plane": "X",
+   "s": 168.1975,
+   "L": 0.1,
+   "value": 0.0,
+   "value_units": "mm"
+  },
+  "ip4BPM3V": {
+   "type": "BPM",
+   "plane": "Y",
+   "s": 176.4025,
+   "L": 0.1,
+   "value": 0.0,
+   "value_units": "mm"
+  },
+  "ip4BPM3H": {
+   "type": "BPM",
+   "plane": "X",
+   "s": 176.9875,
+   "L": 0.1,
+   "value": 0.0,
+   "value_units": "mm"
+  },
+  "ip4BPM4V": {
+   "type": "BPM",
+   "plane": "Y",
+   "s": 185.1925,
+   "L": 0.1,
+   "value": 0.0,
+   "value_units": "mm"
+  },
+  "ip4BPM4H": {
+   "type": "BPM",
+   "plane": "X",
+   "s": 185.7775,
+   "L": 0.1,
+   "value": 0.0,
+   "value_units": "mm"
+  },
+  "ip4BPM5V": {
+   "type": "BPM",
+   "plane": "Y",
+   "s": 193.9825,
+   "L": 0.1,
+   "value": 0.0,
+   "value_units": "mm"
+  },
+  "ip4BPM5H": {
+   "type": "BPM",
+   "plane": "X",
+   "s": 194.5675,
+   "L": 0.1,
+   "value": 0.0,
+   "value_units": "mm"
+  },
+  "ip4BPM6V": {
+   "type": "BPM",
+   "plane": "Y",
+   "s": 202.7725,
+   "L": 0.1,
+   "value": 0.0,
+   "value_units": "mm"
+  },
+  "ip4BPM6H": {
+   "type": "BPM",
+   "plane": "X",
+   "s": 203.3575,
+   "L": 0.1,
+   "value": 0.0,
+   "value_units": "mm"
+  },
+  "k1S1x": {
+   "type": "corrector",
+   "plane": "X",
+   "s": 0.895,
+   "L": 0.05,
+   "kick": 0.0,
+   "min_kick": -2,
+   "max_kick": 2,
+   "kick_units": "mrad"
+  },
+  "k1S1y": {
+   "type": "corrector",
+   "plane": "Y",
+   "s": 0.895,
+   "L": 0.05,
+   "kick": 0.0,
+   "min_kick": -2,
+   "max_kick": 2,
+   "kick_units": "mrad"
+  },
+  "kIP3": {
+   "type": "corrector",
+   "plane": "X",
+   "s": 2.575,
+   "L": 0.05,
+   "kick": 0.0,
+   "min_kick": -2,
+   "max_kick": 2,
+   "kick_units": "mrad"
+  },
+  "k1S2x": {
+   "type": "corrector",
+   "plane": "X",
+   "s": 9.685,
+   "L": 0.05,
+   "kick": 0.0,
+   "min_kick": -2,
+   "max_kick": 2,
+   "kick_units": "mrad"
+  },
+  "k1S2y": {
+   "type": "corrector",
+   "plane": "Y",
+   "s": 9.685,
+   "L": 0.05,
+   "kick": 0.0,
+   "min_kick": -2,
+   "max_kick": 2,
+   "kick_units": "mrad"
+  },
+  "k1S3x": {
+   "type": "corrector",
+   "plane": "X",
+   "s": 18.475,
+   "L": 0.05,
+   "kick": 0.0,
+   "min_kick": -2,
+   "max_kick": 2,
+   "kick_units": "mrad"
+  },
+  "k1S3y": {
+   "type": "corrector",
+   "plane": "Y",
+   "s": 18.475,
+   "L": 0.05,
+   "kick": 0.0,
+   "min_kick": -2,
+   "max_kick": 2,
+   "kick_units": "mrad"
+  },
+  "k1S4x": {
+   "type": "corrector",
+   "plane": "X",
+   "s": 27.265,
+   "L": 0.05,
+   "kick": 0.0,
+   "min_kick": -2,
+   "max_kick": 2,
+   "kick_units": "mrad"
+  },
+  "k1S4y": {
+   "type": "corrector",
+   "plane": "Y",
+   "s": 27.265,
+   "L": 0.05,
+   "kick": 0.0,
+   "min_kick": -2,
+   "max_kick": 2,
+   "kick_units": "mrad"
+  },
+  "k1S5x": {
+   "type": "corrector",
+   "plane": "X",
+   "s": 36.055,
+   "L": 0.05,
+   "kick": 0.0,
+   "min_kick": -2,
+   "max_kick": 2,
+   "kick_units": "mrad"
+  },
+  "k1S5y": {
+   "type": "corrector",
+   "plane": "Y",
+   "s": 36.055,
+   "L": 0.05,
+   "kick": 0.0,
+   "min_kick": -2,
+   "max_kick": 2,
+   "kick_units": "mrad"
+  },
+  "k1S6x": {
+   "type": "corrector",
+   "plane": "X",
+   "s": 44.845,
+   "L": 0.05,
+   "kick": 0.0,
+   "min_kick": -2,
+   "max_kick": 2,
+   "kick_units": "mrad"
+  },
+  "k1S6y": {
+   "type": "corrector",
+   "plane": "Y",
+   "s": 44.845,
+   "L": 0.05,
+   "kick": 0.0,
+   "min_kick": -2,
+   "max_kick": 2,
+   "kick_units": "mrad"
+  },
+  "k2S1x": {
+   "type": "corrector",
+   "plane": "X",
+   "s": 53.635,
+   "L": 0.05,
+   "kick": 0.0,
+   "min_kick": -2,
+   "max_kick": 2,
+   "kick_units": "mrad"
+  },
+  "k2S1y": {
+   "type": "corrector",
+   "plane": "Y",
+   "s": 53.635,
+   "L": 0.05,
+   "kick": 0.0,
+   "min_kick": -2,
+   "max_kick": 2,
+   "kick_units": "mrad"
+  },
+  "k2S2x": {
+   "type": "corrector",
+   "plane": "X",
+   "s": 62.425,
+   "L": 0.05,
+   "kick": 0.0,
+   "min_kick": -2,
+   "max_kick": 2,
+   "kick_units": "mrad"
+  },
+  "k2S2y": {
+   "type": "corrector",
+   "plane": "Y",
+   "s": 62.425,
+   "L": 0.05,
+   "kick": 0.0,
+   "min_kick": -2,
+   "max_kick": 2,
+   "kick_units": "mrad"
+  },
+  "k2S3x": {
+   "type": "corrector",
+   "plane": "X",
+   "s": 71.215,
+   "L": 0.05,
+   "kick": 0.0,
+   "min_kick": -2,
+   "max_kick": 2,
+   "kick_units": "mrad"
+  },
+  "k2S3y": {
+   "type": "corrector",
+   "plane": "Y",
+   "s": 71.215,
+   "L": 0.05,
+   "kick": 0.0,
+   "min_kick": -2,
+   "max_kick": 2,
+   "kick_units": "mrad"
+  },
+  "k2S4x": {
+   "type": "corrector",
+   "plane": "X",
+   "s": 80.005,
+   "L": 0.05,
+   "kick": 0.0,
+   "min_kick": -2,
+   "max_kick": 2,
+   "kick_units": "mrad"
+  },
+  "k2S4y": {
+   "type": "corrector",
+   "plane": "Y",
+   "s": 80.005,
+   "L": 0.05,
+   "kick": 0.0,
+   "min_kick": -2,
+   "max_kick": 2,
+   "kick_units": "mrad"
+  },
+  "k2S5x": {
+   "type": "corrector",
+   "plane": "X",
+   "s": 88.795,
+   "L": 0.05,
+   "kick": 0.0,
+   "min_kick": -2,
+   "max_kick": 2,
+   "kick_units": "mrad"
+  },
+  "k2S5y": {
+   "type": "corrector",
+   "plane": "Y",
+   "s": 88.795,
+   "L": 0.05,
+   "kick": 0.0,
+   "min_kick": -2,
+   "max_kick": 2,
+   "kick_units": "mrad"
+  },
+  "k2S6x": {
+   "type": "corrector",
+   "plane": "X",
+   "s": 97.585,
+   "L": 0.05,
+   "kick": 0.0,
+   "min_kick": -2,
+   "max_kick": 2,
+   "kick_units": "mrad"
+  },
+  "k2S6y": {
+   "type": "corrector",
+   "plane": "Y",
+   "s": 97.585,
+   "L": 0.05,
+   "kick": 0.0,
+   "min_kick": -2,
+   "max_kick": 2,
+   "kick_units": "mrad"
+  },
+  "k3S1x": {
+   "type": "corrector",
+   "plane": "X",
+   "s": 106.375,
+   "L": 0.05,
+   "kick": 0.0,
+   "min_kick": -2,
+   "max_kick": 2,
+   "kick_units": "mrad"
+  },
+  "k3S1y": {
+   "type": "corrector",
+   "plane": "Y",
+   "s": 106.375,
+   "L": 0.05,
+   "kick": 0.0,
+   "min_kick": -2,
+   "max_kick": 2,
+   "kick_units": "mrad"
+  },
+  "k3S2x": {
+   "type": "corrector",
+   "plane": "X",
+   "s": 115.165,
+   "L": 0.05,
+   "kick": 0.0,
+   "min_kick": -2,
+   "max_kick": 2,
+   "kick_units": "mrad"
+  },
+  "k3S2y": {
+   "type": "corrector",
+   "plane": "Y",
+   "s": 115.165,
+   "L": 0.05,
+   "kick": 0.0,
+   "min_kick": -2,
+   "max_kick": 2,
+   "kick_units": "mrad"
+  },
+  "k3S3x": {
+   "type": "corrector",
+   "plane": "X",
+   "s": 123.955,
+   "L": 0.05,
+   "kick": 0.0,
+   "min_kick": -2,
+   "max_kick": 2,
+   "kick_units": "mrad"
+  },
+  "k3S3y": {
+   "type": "corrector",
+   "plane": "Y",
+   "s": 123.955,
+   "L": 0.05,
+   "kick": 0.0,
+   "min_kick": -2,
+   "max_kick": 2,
+   "kick_units": "mrad"
+  },
+  "k3S4x": {
+   "type": "corrector",
+   "plane": "X",
+   "s": 132.745,
+   "L": 0.05,
+   "kick": 0.0,
+   "min_kick": -2,
+   "max_kick": 2,
+   "kick_units": "mrad"
+  },
+  "k3S4y": {
+   "type": "corrector",
+   "plane": "Y",
+   "s": 132.745,
+   "L": 0.05,
+   "kick": 0.0,
+   "min_kick": -2,
+   "max_kick": 2,
+   "kick_units": "mrad"
+  },
+  "k3S5x": {
+   "type": "corrector",
+   "plane": "X",
+   "s": 141.535,
+   "L": 0.05,
+   "kick": 0.0,
+   "min_kick": -2,
+   "max_kick": 2,
+   "kick_units": "mrad"
+  },
+  "k3S5y": {
+   "type": "corrector",
+   "plane": "Y",
+   "s": 141.535,
+   "L": 0.05,
+   "kick": 0.0,
+   "min_kick": -2,
+   "max_kick": 2,
+   "kick_units": "mrad"
+  },
+  "k3S6x": {
+   "type": "corrector",
+   "plane": "X",
+   "s": 150.325,
+   "L": 0.05,
+   "kick": 0.0,
+   "min_kick": -2,
+   "max_kick": 2,
+   "kick_units": "mrad"
+  },
+  "k3S6y": {
+   "type": "corrector",
+   "plane": "Y",
+   "s": 150.325,
+   "L": 0.05,
+   "kick": 0.0,
+   "min_kick": -2,
+   "max_kick": 2,
+   "kick_units": "mrad"
+  },
+  "k4S1x": {
+   "type": "corrector",
+   "plane": "X",
+   "s": 159.115,
+   "L": 0.05,
+   "kick": 0.0,
+   "min_kick": -2,
+   "max_kick": 2,
+   "kick_units": "mrad"
+  },
+  "k4S1y": {
+   "type": "corrector",
+   "plane": "Y",
+   "s": 159.115,
+   "L": 0.05,
+   "kick": 0.0,
+   "min_kick": -2,
+   "max_kick": 2,
+   "kick_units": "mrad"
+  },
+  "k4S2x": {
+   "type": "corrector",
+   "plane": "X",
+   "s": 167.905,
+   "L": 0.05,
+   "kick": 0.0,
+   "min_kick": -2,
+   "max_kick": 2,
+   "kick_units": "mrad"
+  },
+  "k4S2y": {
+   "type": "corrector",
+   "plane": "Y",
+   "s": 167.905,
+   "L": 0.05,
+   "kick": 0.0,
+   "min_kick": -2,
+   "max_kick": 2,
+   "kick_units": "mrad"
+  },
+  "k4S3x": {
+   "type": "corrector",
+   "plane": "X",
+   "s": 176.695,
+   "L": 0.05,
+   "kick": 0.0,
+   "min_kick": -2,
+   "max_kick": 2,
+   "kick_units": "mrad"
+  },
+  "k4S3y": {
+   "type": "corrector",
+   "plane": "Y",
+   "s": 176.695,
+   "L": 0.05,
+   "kick": 0.0,
+   "min_kick": -2,
+   "max_kick": 2,
+   "kick_units": "mrad"
+  },
+  "k4S4x": {
+   "type": "corrector",
+   "plane": "X",
+   "s": 185.485,
+   "L": 0.05,
+   "kick": 0.0,
+   "min_kick": -2,
+   "max_kick": 2,
+   "kick_units": "mrad"
+  },
+  "k4S4y": {
+   "type": "corrector",
+   "plane": "Y",
+   "s": 185.485,
+   "L": 0.05,
+   "kick": 0.0,
+   "min_kick": -2,
+   "max_kick": 2,
+   "kick_units": "mrad"
+  },
+  "k4S5x": {
+   "type": "corrector",
+   "plane": "X",
+   "s": 194.275,
+   "L": 0.05,
+   "kick": 0.0,
+   "min_kick": -2,
+   "max_kick": 2,
+   "kick_units": "mrad"
+  },
+  "k4S5y": {
+   "type": "corrector",
+   "plane": "Y",
+   "s": 194.275,
+   "L": 0.05,
+   "kick": 0.0,
+   "min_kick": -2,
+   "max_kick": 2,
+   "kick_units": "mrad"
+  },
+  "k4S6x": {
+   "type": "corrector",
+   "plane": "X",
+   "s": 203.065,
+   "L": 0.05,
+   "kick": 0.0,
+   "min_kick": -2,
+   "max_kick": 2,
+   "kick_units": "mrad"
+  },
+  "k4S6y": {
+   "type": "corrector",
+   "plane": "Y",
+   "s": 203.065,
+   "L": 0.05,
+   "kick": 0.0,
+   "min_kick": -2,
+   "max_kick": 2,
+   "kick_units": "mrad"
   }
+ }
 }

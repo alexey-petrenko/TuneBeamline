@@ -4,9 +4,9 @@
   "Apertures": {
     "DU50": {
       "type": "elliptical",
-      "s":    [0.0,   1.5],
+      "s":    [0.0,   205.0],
       "Xmax": [0.025, 0.025],
-      "Ymax": [0.025, 0.025]
+      "Ymax": [0.015, 0.015]
     },
     "kicker": {
       "type": "rectangular",
@@ -38,8 +38,8 @@
       "type": "elliptical",
       "visible": false,
       "s":    [-0.5,   0.5],
-      "Xmax": [0.030, 0.030],
-      "Ymax": [0.015, 0.015]
+      "Xmax": [0.023, 0.023],
+      "Ymax": [0.013, 0.013]
     },
     "B10": {
       "definition": "bend",
