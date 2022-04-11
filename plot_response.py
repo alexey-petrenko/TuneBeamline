@@ -64,10 +64,9 @@ if __name__ == '__main__':
 
         axy.set_xlabel("$s$ (m)")
 
-        min_slope = np.min([np.min(x_slopes), np.min(y_slopes)])
-        max_slope = np.max([np.max(x_slopes), np.max(y_slopes)])
+        slopes = np.concatenate([x_slopes,y_slopes])
+        slope_range = slopes.max()-slopes.min()
 
-        slope_range = max_slope-min_slope
         box_h = 0.1
         if slope_range > 0:
             box_h = slope_range*0.1

@@ -5,6 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from plot_beamline import plot_beamline
 from plot_aperture import plot_aperture
+from threading import Timer
 
 def plot_orbit(beamline_cfg, ax, plane='X'):
     s_values = []
@@ -46,12 +47,12 @@ def plot_correctors(beamline_cfg, ax, plane='X'):
 
                     if "min_kick" in itm:
                         min_kick = itm["min_kick"]
-                        ax.plot([s,s], [0,min_kick], color="blue", alpha=0.4, lw=3)
+                        ax.plot([s,s], [0,min_kick], color="blue", alpha=0.3, lw=3)
                     else: min_kick = -1e10
 
                     if "max_kick" in itm:
                         max_kick = itm["max_kick"]
-                        ax.plot([s,s], [0,max_kick], color="blue", alpha=0.4, lw=3)
+                        ax.plot([s,s], [0,max_kick], color="blue", alpha=0.3, lw=3)
                     else: max_kick = 1e10
 
                     max_kicks.append(max_kick)
@@ -72,20 +73,39 @@ def responses_to_corrector(element_names, corrector_name, responses_cfg):
         slopes.append(slope)
     return np.array(slopes)
 
+scroll_in_progress = False
+N_scrolls_done = 0
 def on_scroll(event):
-    global x_orbit_values, y_orbit_values, y_orbit_values
+    global scroll_in_progress
+    global N_scrolls_done
+
+    x = event.xdata
+    if not x: return
+
+    if event.button == "up":
+        N_scrolls_done+=1
+    else:
+        N_scrolls_done-=1
+
+    if not scroll_in_progress:
+        scroll_in_progress = True
+        t = Timer(0.2, move_dot, args=[event])
+        t.start()
+
+def move_dot(event):
+    global scroll_in_progress, N_scrolls_done
+    scroll_in_progress = False
+    
+    global x_orbit_values, y_orbit_values
     global x_cor_values, y_cor_values
     
     res = line_and_element_from_mouse_event(event)
     if not res: return
     line, i, element_name = res
 
-    #print('you pressed', event.button, event.xdata, event.ydata)
-    direction = -1.0
-    if event.button == "up": direction = 1.0
-  
     v_min, v_max =event.inaxes.get_ylim()
-    step = direction*(v_max-v_min)/30.0
+    step = N_scrolls_done*(v_max-v_min)/30.0
+    N_scrolls_done = 0
     
     element = beamline_cfg["Beamline elements"][element_name]
     if element["type"] == "corrector":
@@ -103,7 +123,6 @@ def on_scroll(event):
             if kick + step < element["min_kick"]:
                 step = element["min_kick"] - kick
         
-        #print(f"Apply correction: '{element_name}' change = {step:+.3f}")
         x_resp = responses_to_corrector(x_BPMs, element_name, responses_cfg)
         y_resp = responses_to_corrector(y_BPMs, element_name, responses_cfg)
         
@@ -139,16 +158,17 @@ def on_scroll(event):
         
         dV = ORM*dkicks
         dV = dV.A1
-        
-        x_orbit_values = x_orbit_values + dV[:len(x_orbit_values)]
-        y_orbit_values = y_orbit_values + dV[len(x_orbit_values):]
 
         dkicks = dkicks.A1
         
         x_cor_values = x_cor_values + dkicks[:len(x_cor_values)]
         y_cor_values = y_cor_values + dkicks[len(x_cor_values):]
+        
+        x_orbit_values = x_orbit_values + dV[:len(x_orbit_values)]
+        y_orbit_values = y_orbit_values + dV[len(x_orbit_values):]
 
     update_plot()
+
 
 def get_ORM(BPMs, correctors):
     M = []
@@ -196,9 +216,6 @@ def onmove(event):
     if not res: return
     line, i, element_name = res
     
-    #v_min, v_max =event.inaxes.get_ylim()
-    #step = direction*(v_max-v_min)/30.0
-    
     select_element(element_name, event.inaxes)
 
 selected_element_name = ""
@@ -229,7 +246,6 @@ def select_element(name, ax):
     selected_element_txt = txt
     
     ax.figure.canvas.draw()
-    
 
 
 def update_plot():
@@ -242,7 +258,6 @@ def update_plot():
         line.set_data(s_data, values)
 
     fig.canvas.draw()
-
 
 
 if __name__ == '__main__':
@@ -291,10 +306,10 @@ if __name__ == '__main__':
             plot_aperture(aperture_cfg, axx, plane="X")
             plot_aperture(aperture_cfg, axy, plane="Y")
 
-    plot_beamline(beamline_cfg, axx,  show_names=False, box_h=5.0, alpha=0.2)
-    plot_beamline(beamline_cfg, axy,  show_names=False, box_h=5.0, alpha=0.2)
-    plot_beamline(beamline_cfg, axcx, show_names=False, box_h=2.0, alpha=0.2)
-    plot_beamline(beamline_cfg, axcy, show_names=False, box_h=2.0, alpha=0.2)
+    plot_beamline(beamline_cfg, axx,  show_names=False, box_h=10.0, alpha=0.2)
+    plot_beamline(beamline_cfg, axy,  show_names=False, box_h=10.0, alpha=0.2)
+    plot_beamline(beamline_cfg, axcx, show_names=False, box_h=1.0, alpha=0.2)
+    plot_beamline(beamline_cfg, axcy, show_names=False, box_h=1.0, alpha=0.2)
 
     x_line, x_BPMs = plot_orbit(beamline_cfg, axx, plane='X')
     y_line, y_BPMs = plot_orbit(beamline_cfg, axy, plane='Y')
@@ -351,14 +366,16 @@ if __name__ == '__main__':
     ORM = get_ORM(ORM_BPMs,ORM_cors) # ORM matrix
     
     print("ORM:")
-    print(np.round(ORM))
+    print(np.round(ORM, 1))
     
     U, s, Vh = np.linalg.svd(ORM, full_matrices=False)
-    print("singular values:")
-    print(s)
+    print("Non-zero singular values:")
+    s_limit = 1e-5
+    print(s[s>s_limit])
    
-    N_singular_values_to_keep = 5
-    print(f"N_singular_values_to_keep = {N_singular_values_to_keep}")
+    N_singular_values_to_keep = int( 0.85 * len(s[s>s_limit]) )
+    #N_singular_values_to_keep = 7
+    print(f"N_singular_values_to_keep = {N_singular_values_to_keep} ({100*N_singular_values_to_keep/len(s):.0f}%)")
     s1 = s.copy()
     s1 = s1**-1
     s1[N_singular_values_to_keep:] = 0
