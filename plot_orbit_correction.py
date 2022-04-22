@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 from plot_beamline import plot_beamline
 from plot_aperture import plot_aperture
 from threading import Timer
-from accel_packages.TuneBeamline.cx_connection import CXDataExchange
+from cx_connection import CXDataExchange
 from matplotlib.widgets import Button
 from PyQt5.QtWidgets import QApplication
 
