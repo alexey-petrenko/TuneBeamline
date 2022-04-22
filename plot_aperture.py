@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 
-import json, os, sys
+import json
+import os
+import sys
 import numpy as np
 import matplotlib.pyplot as plt
 from plot_beamline import plot_beamline
+
 
 def plot_aperture(cfg, ax, plane='X'):
 

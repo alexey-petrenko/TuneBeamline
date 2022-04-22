@@ -1,11 +1,17 @@
 #!/usr/bin/env python3
 
-import json, os, sys
+import json
+import os
+import sys
 import numpy as np
 import matplotlib.pyplot as plt
 from plot_beamline import plot_beamline
 from plot_aperture import plot_aperture
 from threading import Timer
+from accel_packages.TuneBeamline.cx_connection import CXDataExchange
+from matplotlib.widgets import Button
+from PyQt5.QtWidgets import QApplication
+
 
 def plot_orbit(beamline_cfg, ax, plane='X'):
     s_values = []
@@ -25,7 +31,6 @@ def plot_orbit(beamline_cfg, ax, plane='X'):
     BPM_names = np.array(BPM_names)
     
     ids = np.argsort(s_values) # indicies sorted by s
-    
     line, = ax.plot(s_values[ids], orbit_values[ids], "--", marker="o", lw=3)
     return line, BPM_names[ids]
 
@@ -222,7 +227,8 @@ selected_element_name = ""
 selected_element_txt = None
 def select_element(name, ax):
     global selected_element_name, selected_element_txt
-    if name == selected_element_name : return
+    if name == selected_element_name:
+        return
     selected_element_name = name
     
     if selected_element_txt:
@@ -260,8 +266,28 @@ def update_plot():
     fig.canvas.draw()
 
 
-if __name__ == '__main__':
+def get_vals_from_consys(event):
+    x_orbit_values = []
+    y_orbit_values = []
+    coors = data_exchange.get_beam_coor()
+    for chan, coor in coors.items():
+        if chan[-1] == 'x':
+            x_orbit_values.append(coor)
+        else:
+            y_orbit_values.append(coor)
+    print(y_orbit_values)
+    cors_cur = data_exchange.get_cor_vals()
+    # update_plot()
 
+
+def send_vals_to_consys(event):
+    print(event)
+
+
+if __name__ == '__main__':
+    app = QApplication(['resp_orbittt'])
+    data_exchange = CXDataExchange('/home/vbalakin/PycharmProjects/accel_packages/TuneBeamline/cx_data_config.json',
+                                   'bpm', 'cor')
     beamline_file='beamline.json'
     if len(sys.argv) > 1:
         beamline_file = sys.argv[1]
@@ -276,7 +302,7 @@ if __name__ == '__main__':
         print(f"No {responses_file} file to use!")
         exit()
 
-    aperture_file='aperture.json'
+    aperture_file= ''  #'aperture.json'
     if len(sys.argv) > 3:
         aperture_file = sys.argv[3]
 
@@ -359,6 +385,16 @@ if __name__ == '__main__':
     cid = fig.canvas.mpl_connect('scroll_event', on_scroll)
     cid = fig.canvas.mpl_connect('motion_notify_event', onmove)
 
+    # btn for control
+    fig2 = plt.figure(figsize=(11, 6))
+    axget = fig2.add_subplot(211)
+    btn_get = Button(axget, 'Get Values')
+    btn_get.on_clicked(get_vals_from_consys)
+
+    axset = fig2.add_subplot(212)
+    btn_set = Button(axset, 'Set Values')
+    btn_set.on_clicked(send_vals_to_consys)
+
     # ORM/SVD calculations:
     
     ORM_BPMs = np.concatenate( (x_BPMs,y_BPMs) ) # all BPMs
@@ -389,3 +425,4 @@ if __name__ == '__main__':
     print(np.round(ORM_inv))
 
     plt.show()
+    sys.exit(app.exec_())

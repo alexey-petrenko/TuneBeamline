@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 
-import json, os, sys
+import json
+import os
+import sys
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
+
 
 def plot_beamline(cfg, ax, show_names=True, box_h=0.1, alpha=0.5):
 
