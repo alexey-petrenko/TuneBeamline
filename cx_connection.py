@@ -2,7 +2,7 @@ import json
 import pycx4.qcda as cda
 
 
-class CXDataExchange:
+class DataExchange:
     def __init__(self, config_file, *chan_types):
         super().__init__()
         config: dict = {}

@@ -1,0 +1,11 @@
+{
+  "Name": "Example beamline apertures",
+  "units": "m",
+  "Apertures": {
+    "PIPE": {
+      "type": "elliptical",
+      "s":  [0.0, 15.0, 15.0, 27.0],
+      "aper": [0.025, 0.025, 0.04, 0.04]
+    }
+  }
+}
