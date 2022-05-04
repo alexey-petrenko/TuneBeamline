@@ -1,44 +1,45 @@
 #!/usr/bin/env python3
 
+from PyQt5.QtCore import pyqtSignal
+from PyQt5.QtCore import QObject
 import numpy as np
 
 
-class BPM:
-    def __init__(self, name, **kwargs):
+class BPM(QObject):
+    valueChanged = pyqtSignal(float, int, str)
+
+    def __init__(self, name, order, **prop):
         super().__init__()
         self.name = name
-        self.typo = kwargs.get('plane', 'NO KEY')
-        self.pos = kwargs.get('s', 'NO KEY')
-        self.lenght = kwargs.get('L', 'NO KEY')
-        self.val = kwargs.get('kick', 'NO KEY')
+        self.plane = prop.get('plane', 'NO KEY')
+        self.pos = prop.get('s', 'NO KEY')
+        self.length = prop.get('L', 'NO KEY')
+        self.val = prop.get('kick', 'NO KEY')
+
+        self.or_num: int = order
+        self.val: float = -1.0
+
+    def val_changed(self, chan):
+        self.val = chan.val
+        self.valueChanged.emit(self.val, self.or_num, self.plane)
 
 
-class Corrector:
-    def __init__(self, name, **kwargs):
+class Corrector(QObject):
+    valueChanged = pyqtSignal(float, int, str)
+
+    def __init__(self, name, order, **prop):
         super().__init__()
         self.name = name
-        self.typo = kwargs.get('plane', 'NO KEY')
-        self.pos = kwargs.get('s', 'NO KEY')
-        self.lenght = kwargs.get('L', 'NO KEY')
-        self.val = kwargs.get('kick', 'NO KEY')
-        self.upper_limit = kwargs.get('max_kick', 'NO KEY')
-        self.lower_limit = kwargs.get('min_kick', 'NO KEY')
+        self.plane = prop.get('plane', 'NO KEY')
+        self.pos = prop.get('s', 'NO KEY')
+        self.length = prop.get('L', 'NO KEY')
+        self.val = prop.get('kick', 'NO KEY')
+        self.upper_limit = prop.get('max_kick', 'NO KEY')
+        self.lower_limit = prop.get('min_kick', 'NO KEY')
 
+        self.or_num: int = order
+        self.val: float = -1.0
 
-class AccElemCollection:
-    def __init__(self, name, typo, config):
-        super().__init__()
-        self.name = name
-        self.elem_coll = {'BPM': BPM, 'corrector': Corrector}
-        self.coll: dict = {}
-
-        for elem_name, elem_par in config['Beamline elements'].items():
-            if elem_par['type'] == typo:
-                self.coll[elem_name] = self.elem_coll[typo](elem_name, **elem_par)
-
-        self.names_x = np.array([name for name, elem in self.coll.items() if elem.typo == "X"])
-        self.s_x = np.array([elem.pos for name, elem in self.coll.items() if elem.typo == "X"])
-        self.ind_x = np.argsort(self.s_x)
-        self.names_y = np.array([name for name, elem in self.coll.items() if elem.typo == "Y"])
-        self.s_y = np.array([elem.pos for name, elem in self.coll.items() if elem.typo == "Y"])
-        self.ind_y = np.argsort(self.s_y)
+    def val_changed(self, chan):
+        self.val = chan.val
+        self.valueChanged(self.val, self.or_num, self.plane)
