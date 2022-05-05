@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 
-import json, os, sys
+import json
+import os
+import sys
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
+
 
 def plot_beamline(cfg, ax, show_names=True, box_h=0.1, alpha=0.5):
 
@@ -41,6 +44,7 @@ def plot_beamline(cfg, ax, show_names=True, box_h=0.1, alpha=0.5):
 
     if show_names:
         for s, itm in s_names.items():
+            print(itm)
             ax.text(s, -1, ", ".join(itm), verticalalignment='bottom', horizontalalignment='right',
                         color='blue', fontsize=9, rotation='vertical', alpha=alpha)
 
@@ -58,6 +62,7 @@ def plot_beamline(cfg, ax, show_names=True, box_h=0.1, alpha=0.5):
 
     #plt.title("BPM" + BPM)
     #plt.legend()
+
 
 if __name__ == '__main__':
     json_file='beamline.json'
